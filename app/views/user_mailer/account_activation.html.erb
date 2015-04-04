@@ -1,0 +1,9 @@
+<h1>UserMailer#account_activation</h1>
+
+<p>Hi <%= @user.name %>,</p>
+
+<p>
+  Click <a href=<%= edit_account_activation_url(@user.activation_token,
+                                                email: @user.email) %>>here</a> 
+  to activate your account
+</p>

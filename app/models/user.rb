@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
                     uniqueness: { case_sensitive: false }
   has_secure_password
   validates :password, length: { minimum: 6 }, allow_blank: true
+  has_many :microposts, dependent: :destroy
 
   # Hashes string with BCrypt hashing function
   def User.digest(string)
@@ -68,6 +69,12 @@ class User < ActiveRecord::Base
   # Returns true if password reset has expired.
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
+  end
+  
+  # Defines a proto-feed
+  # TODO: generalize to feeds from followed users
+  def feed
+    Micropost.where("user_id = ?", id)
   end
   
   private
